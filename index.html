@@ -8,9 +8,10 @@
 <body>
 
     <div id="app">
-        <span v-bind:title="hoverText" v-if="seen">{{ message }}</span>
+        <p v-on:click="alertInfo()" v-bind:title="hoverText" v-if="seen">{{ message }}</p>
+        <p>Reversed title looks like that: {{reversedMessage}}</p>
         <ul>
-            <todoitem v-for="item in todosList" v-bind:todo="item" v-bind:key="item.id"></todoitem>
+            <todoitem  v-for="item in todosList" v-bind:todo="item" v-bind:key="item.id"></todoitem>
         </ul>
     </div>
 
@@ -18,23 +19,37 @@
 
 
     <script>
+
+        // New component for todo item
         Vue.component('todoitem', {
             props: ['todo'],
-            template: '<li>Thing to do: {{todo.text}}, when to do: {{todo.when}}.</li>'
+            template: '<li>Thing to do: {{todo.text}}, when to do: <span v-html="todo.when"></span>.</li>'
         });
         var app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello World!',
+                message: 'Say goodbye to 2018, here is the list of things to do in 2019!',
                 hoverText: 'Actual time: ' + new Date().toLocaleString(),
                 seen: true,
                 todosList: [
                     { id: 0, text: 'Clean up room', when: 'Tommorow'},
                     { id: 1, text: 'Repair seat', when: 'Yesterday'},
-                    { id: 2, text: 'Fire a flare', when: 'New years eve'}
+                    { id: 2, text: 'Fire a flare', when: '<span style="color: red;">New years eve</span>'}
                 ]
+            },
+            created: function(){
+                console.log('Message is: ' + this.message);
+            },
+            computed: {
+                reversedMessage: function(){
+                    return this.message.split('').reverse().join('');
+                }
             }
         });
+
+        function alertInfo() {
+            alert('2019 incoming');
+        }
     </script>
 
 </body>
