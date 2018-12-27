@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue testing</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+    <div id="app">
+        <span v-bind:title="hoverText" v-if="seen">{{ message }}</span>
+        <ul>
+            <todoitem v-for="item in todosList" v-bind:todo="item" v-bind:key="item.id"></todoitem>
+        </ul>
+    </div>
+
+
+
+
+    <script>
+        Vue.component('todoitem', {
+            props: ['todo'],
+            template: '<li>Thing to do: {{todo.text}}, when to do: {{todo.when}}.</li>'
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello World!',
+                hoverText: 'Actual time: ' + new Date().toLocaleString(),
+                seen: true,
+                todosList: [
+                    { id: 0, text: 'Clean up room', when: 'Tommorow'},
+                    { id: 1, text: 'Repair seat', when: 'Yesterday'},
+                    { id: 2, text: 'Fire a flare', when: 'New years eve'}
+                ]
+            }
+        });
+    </script>
+
+</body>
+</html>
